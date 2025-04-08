@@ -4,115 +4,143 @@
 <head>
   <meta charset="utf-8">
   <title>Carousel Template</title>
-  
+
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <link rel="stylesheet" href="carousel.css">
+  <link rel="stylesheet" href="carousel.css">
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" defer></script>
 
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=42dot+Sans:wght@300..800&family=Gowun+Dodum&family=Noto+Sans+KR:wght@100..900&family=Single+Day&family=Yeon+Sung&display=swap">
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=42dot+Sans:wght@300..800&family=Gowun+Dodum&family=Noto+Sans+KR:wght@100..900&family=Single+Day&family=Yeon+Sung&display=swap">
 
   <style>
-     body {
+    .carousel-caption {
+    position: absolute;
+    z-index: 10; /* 글자가 가장 위에 오게 */
+    color: white;
+  }
+
+  .carousel-control-prev,
+  .carousel-control-next {
+    top: 50%;
+    transform: translateY(-50%);
+    height: 50px;
+    width: 50px;
+    z-index: 5; /* caption보다 낮게 */
+  }
+
+    body {
       font-family: "Gowun Dodum", sans-serif;
-     }
+    }
   </style>
 
 </head>
 
-  <body>
-    <header data-bs-theme="dark">
-      <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-        <div class="container-fluid">
-          <a class="navbar-brand" href="" style="font-family: 'Bungee Inline', sans-serif; font-size:25px;">FIFTEAM</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarCollapse" style="font-family:'KorailRoundGothicBold';">
-            <ul class="navbar-nav me-auto mb-2 mb-md-0">
-              <li class="nav-item">
-                <a class="nav-link" href="#myCarousel">팀 소개</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#members">팀원 소개</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#guestbook">방명록</a>
-              </li>
-            </ul>
-            <!--search삭제
+<body>
+  <header data-bs-theme="dark">
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="" style="font-family: 'Bungee Inline', sans-serif; font-size:25px;">FIFTEAM</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
+          aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse" style="font-family:'KorailRoundGothicBold';">
+          <ul class="navbar-nav me-auto mb-2 mb-md-0">
+            <li class="nav-item">
+              <a class="nav-link" href="#myCarousel">팀 소개</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#members">팀원 소개</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#guestbook">방명록</a>
+            </li>
+          </ul>
+          <!--search삭제
             <form class="d-flex" role="search">
               <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
               <button class="btn btn-outline-success" type="submit">Search</button>
             </form>
             -->
-          </div>
         </div>
-      </nav>
-    </header>
-
-    <main>
-      <div id="myCarousel" class="carousel slide mb-6"  style="font-family: 'Gowun Dodum', sans-serif;">
-        <div class="carousel-indicators">
-          <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-          <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
-          <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
-        </div>
-        <div class="carousel-inner">
-          <div class="carousel-item active">
-            <img src="../assets/teampicture.png" class="d-block w-100" alt="Slide 1">
-          </div>
-
-          <div class="carousel-item">
-            <img src="../assets/teampicture2.jpg" class="d-block w-100" alt="Slide 2">
-            <div class="container">
-              <div class="carousel-caption d-flex align-items-center gap-3 justify-content-start" style="color:rgb(232, 229, 225);top: auto; bottom: 20%; left: 6%; right: auto;">
-                <h1 class="mb-0" style="font-family:'KorailRoundGothicBold'; font-weight: bolder; font-size: 100px;">FIFTEAM</h1>
-                <div class="d-flex align-items-center" style="height: 95px;">
-                  <p class="opacity-35 mb-0 text-start" style="font-size: 25px; line-height: 1.5rem;">
-                    장차 전세계 대기업에서 러브콜을 받으며<br>시급 15조원 쯤 준대야 고민할 FIFTEAM 개발자들의 시작을 소개합니다.</p>
-                    <!--버튼삭제<p><a class="btn btn-lg btn-primary" href="#">Sign up today</a></p> -->
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="carousel-item">
-            <img src="../assets/teampicture3.jpg" class="d-block w-100" alt="Slide 2">
-            <div class="container">
-              <div class="carousel-caption d-flex align-items-center gap-3 justify-content-start" style="color:rgb(232, 229, 225);top: auto; bottom: 20%; left: 6%; right: auto;">
-                <h1 class="mb-0" style="font-family:'KorailRoundGothicBold'; font-weight: bolder; font-size: 100px;">FIFTEAM</h1>
-                <div class="d-flex align-items-center" style="height: 95px;">
-                  <p class="opacity-35 mb-0 text-start" style="font-size: 25px; line-height: 1.5rem;">
-                    장차 전세계 대기업에서 러브콜을 받으며<br>시급 15조원 쯤 준대야 고민할 FIFTEAM 개발자들의 시작을 소개합니다.</p>
-                    <!--버튼삭제<p><a class="btn btn-lg btn-primary" href="#">Sign up today</a></p> -->
-                </div>
-              </div>
-            </div>
-          </div>
-
-          
-        </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
-          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
-          <span class="carousel-control-next-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Next</span>
-        </button>
       </div>
+    </nav>
+  </header>
 
-      <div id = "members" class="container marketing mt-5">
+  <main>
+    <div id="myCarousel" class="carousel slide mb-6" style="font-family: 'Gowun Dodum', sans-serif;">
+      <div class="carousel-indicators">
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-current="true"
+          aria-label="Slide 1"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+      </div>
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <img src="../assets/teampicture.png" class="d-block w-100" alt="Slide 1">
+        </div>
+
+        <div class="carousel-item">
+          <img src="../assets/teampicture2.jpg" class="d-block w-100" alt="Slide 2">
+          <div class="container">
+            <div class="carousel-caption d-flex align-items-center gap-3 justify-content-start"
+              style="color:rgb(232, 229, 225);top: auto; bottom: 20%; left: 6%; right: auto;">
+              <h1 class="mb-0" style="font-family:'KorailRoundGothicBold'; font-weight: bolder; font-size: 100px;">
+                FIFTEAM</h1>
+              <div class="d-flex align-items-center " style="height: 95px; margin-left:15px;">
+                <p class="opacity-35 mb-0 text-start" style="font-size: 20px; line-height: 2.0rem;">
+                  15조 받는 개발자가 되고 싶은 💸FIFTEAM💸입니다!<br>
+                  첫날엔 강의를 듣고, 둘째 날부터는 바로 프로젝트를 시작했어요.💻🔥<br>
+                  서로 응원하며 끝까지 해내자는 다짐으로 열심히 달리고 있습니다.<br>
+                  의견도 자유롭게 나누고, 피드백도 적극적으로 주고받는 분위기입니다.💬<br>
+                  공통된 목표는 성장하는 개발자가 되는 것!💪😎</p>
+                <!--버튼삭제<p><a class="btn btn-lg btn-primary" href="#">Sign up today</a></p> -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="carousel-item">
+          <img src="../assets/teampicture2.jpg" class="d-block w-100" alt="Slide 2">
+          <div class="container">
+            <div class="carousel-caption d-flex align-items-center gap-3 justify-content-start"
+              style="color:rgb(232, 229, 225);top: auto; bottom: 20%; left: 6%; right: auto;">
+              <h1 class="mb-0" style="font-family:'KorailRoundGothicBold'; font-weight: bolder; font-size: 100px;">
+                FIFTEAM</h1>
+              <div class="d-flex align-items-center" style="height: 95px;">
+                <p class="opacity-35 mb-0 text-start" style="font-size: 25px; line-height: 1.5rem;">
+                  장차 전세계 대기업에서 러브콜을 받으며<br>시급 15조원 쯤 준대야 고민할 FIFTEAM 개발자들의 시작을 소개합니다.</p>
+                <!--버튼삭제<p><a class="btn btn-lg btn-primary" href="#">Sign up today</a></p> -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+        
+
+      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+
+    <div id="members" class="container marketing mt-5">
 
       <div class="row">
         <div class="col-lg-4">
           <a href="profile.html">
             <img src="사진/김민성.jpg" class="bd-placeholder-img rounded-circle mb-3"
-              style="width: 270px; height: 270px; object-fit: cover; border: 2px solid rgba(0, 0, 0, 0.1); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);" alt="Placeholder" />
+              style="width: 270px; height: 270px; object-fit: cover; border: 2px solid rgba(0, 0, 0, 0.1); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);"
+              alt="Placeholder" />
           </a>
           <h2 class="fw-normal">김민성</h2>
           <p>INFP</p>
@@ -121,7 +149,8 @@
         <div class="col-lg-4">
           <a href="profile.html">
             <img src="사진/김형우.jpg" class="bd-placeholder-img rounded-circle mb-3"
-              style="width: 270px; height: 270px; object-fit: cover; border: 2px solid rgba(0, 0, 0, 0.1); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1)" alt="Placeholder" />
+              style="width: 270px; height: 270px; object-fit: cover; border: 2px solid rgba(0, 0, 0, 0.1); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1)"
+              alt="Placeholder" />
           </a>
           <h2 class="fw-normal">김형우</h2>
           <p>ISFJ</p>
@@ -131,7 +160,8 @@
         <div class="col-lg-4">
           <a href="profile.html">
             <img src="사진/유진원.jpg" class="bd-placeholder-img rounded-circle mb-3"
-              style="width: 270px; height: 270px; object-fit: cover; border: 2px solid rgba(0, 0, 0, 0.1); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1)" alt="Placeholder" />
+              style="width: 270px; height: 270px; object-fit: cover; border: 2px solid rgba(0, 0, 0, 0.1); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1)"
+              alt="Placeholder" />
           </a>
           <h2 class="fw-normal">유진원</h2>
           <p>INTP</p>
@@ -144,7 +174,8 @@
         <div class="col-lg-4 text-center">
           <a href="..">
             <img src="사진/이시온.jpg" class="bd-placeholder-img rounded-circle mb-3"
-              style="width: 270px; height: 270px; object-fit: cover; border: 2px solid rgba(0, 0, 0, 0.1); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);" alt="Placeholder" />
+              style="width: 270px; height: 270px; object-fit: cover; border: 2px solid rgba(0, 0, 0, 0.1); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);"
+              alt="Placeholder" />
           </a>
           <h2 class="fw-normal">이시온</h2>
           <p>INFP</p>
@@ -154,7 +185,8 @@
         <div class="col-lg-4 text-center">
           <a href="profile.html">
             <img src="사진/장경혁.jpg" class="bd-placeholder-img rounded-circle mb-3"
-              style="width: 270px; height: 270px; object-fit: cover; border: 2px solid rgba(0, 0, 0, 0.1); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);" alt="Placeholder" />
+              style="width: 270px; height: 270px; object-fit: cover; border: 2px solid rgba(0, 0, 0, 0.1); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);"
+              alt="Placeholder" />
           </a>
           <h2 class="fw-normal">장경혁</h2>
           <p>INFP</p>
@@ -163,7 +195,7 @@
       </div>
     </div>
 
-        <hr class="featurette-divider" id="guestbook">
+    <hr class="featurette-divider" id="guestbook">
 
     <div class="row featurette">
       <div class="col-md-7">
