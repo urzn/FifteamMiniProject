@@ -2,6 +2,13 @@
 -------------------------------------------------- */
 /* Padding below the footer and lighter body text */
 
+@import url('https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Bungee+Inline&family=Gowun+Dodum&family=Ranchers&family=Sunflower:wght@300&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
+@font-face {
+  font-family: 'KorailRoundGothicBold';
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2212@1.0/KorailRoundGothicBold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+}
 body {
   padding-top: 3rem;
   padding-bottom: 3rem;
@@ -27,7 +34,9 @@ body {
   height: 32rem;
 }
 
-
+.carousel-indicators [data-bs-target] {
+  background-color: black;
+}
 /* MARKETING CONTENT
 -------------------------------------------------- */
 

@@ -5,13 +5,10 @@
     <title>Carousel Template</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- 너의 커스텀 CSS -->
-    <link rel="stylesheet" href="carousel.rtl.css">
+    <link rel="stylesheet" href="carousel.css">
 
-    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" defer></script>
   </head>
 
@@ -19,33 +16,35 @@
     <header data-bs-theme="dark">
       <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
         <div class="container-fluid">
-          <a class="navbar-brand" href="#">Carousel</a>
+          <a class="navbar-brand" href="" style="font-family: 'Bungee Inline', sans-serif; font-size:25px;">FIFTEAM</a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
-          <div class="collapse navbar-collapse" id="navbarCollapse">
+          <div class="collapse navbar-collapse" id="navbarCollapse" style="font-family:'KorailRoundGothicBold';">
             <ul class="navbar-nav me-auto mb-2 mb-md-0">
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">Home</a>
+                <a class="nav-link" href="#myCarousel">팀 소개</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
+                <a class="nav-link" href="#members">팀원 소개</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+                <a class="nav-link" href="#guestbook">방명록</a>
               </li>
             </ul>
+            <!--search삭제
             <form class="d-flex" role="search">
               <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
               <button class="btn btn-outline-success" type="submit">Search</button>
             </form>
+            -->
           </div>
         </div>
       </nav>
     </header>
 
     <main>
-      <div id="myCarousel" class="carousel slide mb-6" data-bs-ride="carousel">
+      <div id="myCarousel" class="carousel slide mb-6"  style="font-family: 'Gowun Dodum', sans-serif;">
         <div class="carousel-indicators">
           <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
           <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
@@ -53,35 +52,38 @@
         </div>
         <div class="carousel-inner">
           <div class="carousel-item active">
-            <img src="https://via.placeholder.com/1200x500?text=Slide+1" class="d-block w-100" alt="Slide 1">
-            <div class="container">
-              <div class="carousel-caption text-start">
-                <h1>Example headline.</h1>
-                <p class="opacity-75">Some representative placeholder content for the first slide of the carousel.</p>
-                <p><a class="btn btn-lg btn-primary" href="#">Sign up today</a></p>
-              </div>
-            </div>
+            <img src="../assets/teampicture.png" class="d-block w-100" alt="Slide 1">
           </div>
+
           <div class="carousel-item">
-            <img src="https://via.placeholder.com/1200x500?text=Slide+2" class="d-block w-100" alt="Slide 2">
+            <img src="../assets/teampicture2.jpg" class="d-block w-100" alt="Slide 2">
             <div class="container">
-              <div class="carousel-caption">
-                <h1>Another example headline.</h1>
-                <p>Some representative placeholder content for the second slide of the carousel.</p>
-                <p><a class="btn btn-lg btn-primary" href="#">Learn more</a></p>
+              <div class="carousel-caption d-flex align-items-center gap-3 justify-content-start" style="color:rgb(232, 229, 225);top: auto; bottom: 20%; left: 6%; right: auto;">
+                <h1 class="mb-0" style="font-family:'KorailRoundGothicBold'; font-weight: bolder; font-size: 100px;">FIFTEAM</h1>
+                <div class="d-flex align-items-center" style="height: 95px;">
+                  <p class="opacity-35 mb-0 text-start" style="font-size: 25px; line-height: 1.5rem;">
+                    장차 전세계 대기업에서 러브콜을 받으며<br>시급 15조원 쯤 준대야 고민할 FIFTEAM 개발자들의 시작을 소개합니다.</p>
+                    <!--버튼삭제<p><a class="btn btn-lg btn-primary" href="#">Sign up today</a></p> -->
+                </div>
               </div>
             </div>
           </div>
+
           <div class="carousel-item">
-            <img src="https://via.placeholder.com/1200x500?text=Slide+3" class="d-block w-100" alt="Slide 3">
+            <img src="../assets/teampicture3.jpg" class="d-block w-100" alt="Slide 2">
             <div class="container">
-              <div class="carousel-caption text-end">
-                <h1>One more for good measure.</h1>
-                <p>Some representative placeholder content for the third slide of this carousel.</p>
-                <p><a class="btn btn-lg btn-primary" href="#">Browse gallery</a></p>
+              <div class="carousel-caption d-flex align-items-center gap-3 justify-content-start" style="color:rgb(232, 229, 225);top: auto; bottom: 20%; left: 6%; right: auto;">
+                <h1 class="mb-0" style="font-family:'KorailRoundGothicBold'; font-weight: bolder; font-size: 100px;">FIFTEAM</h1>
+                <div class="d-flex align-items-center" style="height: 95px;">
+                  <p class="opacity-35 mb-0 text-start" style="font-size: 25px; line-height: 1.5rem;">
+                    장차 전세계 대기업에서 러브콜을 받으며<br>시급 15조원 쯤 준대야 고민할 FIFTEAM 개발자들의 시작을 소개합니다.</p>
+                    <!--버튼삭제<p><a class="btn btn-lg btn-primary" href="#">Sign up today</a></p> -->
+                </div>
               </div>
             </div>
           </div>
+
+          
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
           <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -93,11 +95,15 @@
         </button>
       </div>
 
-      <div class="container marketing mt-5">
+      <div id = "members" class="container marketing mt-5">
 
         <div class="row">
           <div class="col-lg-4">
-            <img src="https://via.placeholder.com/140" class="bd-placeholder-img rounded-circle" alt="Placeholder">
+            <div class="img-container" style="position: relative; width: 100%; padding-top: 100%;">
+              <img src="../assets/teampicture.png"
+                   alt="Placeholder"
+                   style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;">
+            </div>
             <h2 class="fw-normal">Heading</h2>
             <p>Some representative placeholder content for the three columns of text below the carousel. This is the first column.</p>
             <p><a class="btn btn-secondary" href="#">View details &raquo;</a></p>
@@ -116,7 +122,7 @@
           </div>
         </div>
 
-        <hr class="featurette-divider">
+        <hr class="featurette-divider" id="guestbook">
 
         <div class="row featurette">
           <div class="col-md-7">
