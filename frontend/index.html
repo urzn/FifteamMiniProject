@@ -42,7 +42,11 @@
     }
 
     .equal-height {
-      height: 20%;
+      height: 16%;
+    }
+
+    .selected-card {
+      background-color: #f0f0f0;
     }
   </style>
   <script type="module">
@@ -75,6 +79,8 @@
     // ]
     const imgLists = ["profile0.jpg", "profile1.jpg", "profile2.jpg", "profile3.jpg", "profile4.jpg"]
 
+    let clickStatus = false;
+
     // 날짜/시간 처리
     const now = new Date();
     // let timestamp = now.toLocaleString("ko-KR");
@@ -84,6 +90,10 @@
       let name = $('#name_input').val();
       let message = $('#message_input').val();
 
+      if (clickStatus) {
+        window.location.reload();
+        alert("새로운 내용을 입력해주세요!")
+      }
       if (!name || !message) {
         alert("이름과 메시지를 모두 입력해주세요!");
         return;
@@ -101,7 +111,7 @@
       window.location.reload();
     })
 
-    const q = query(collection(db, "guestbook"), orderBy("createdAt", "asc"));
+    const q = query(collection(db, "guestbook"), orderBy("createdAt", "desc"));
     const querySnapshot = await getDocs(q);
 
     querySnapshot.forEach((doc) => {
@@ -120,7 +130,7 @@
     </h6>
     <small class="text-muted">${timestamp}</small>
   </div>
-  <p class="card-text mb-0">${row.message}</p>
+  <p class="card-text mb-0" style="display:none">${row.message}</p>
 </div>
 </div>`;
 
@@ -131,10 +141,20 @@
       let name = $(this).data("name");
       let message = $(this).data("message");
 
+      // 입력창에 값 넣기
       $('#name_input').val(name);
       $('#message_input').val(message);
-    });
+      $("#message_input").attr("rows", 6);
+      $("#message_input").attr("readonly", true);
+      $('.title-text').text(name + "님의 방명록");
+      $("#name_input").attr("type", "hidden");
+      // 모든 카드에서 'selected-card' 제거
+      $(".guestProfile").removeClass("selected-card");
+      // 클릭된 카드에만 'selected-card' 추가
+      $(this).addClass("selected-card");
 
+      clickStatus = true;
+    });
   </script>
 
 
@@ -301,15 +321,23 @@
     <hr class="featurette-divider" id="guestbook">
 
     <!--  방명록 시작 -->
-    <section class="container my-5">
-      <h4 class="mb-3"><i class="fa-solid fa-comments"></i> 방명록 목록</h4>
+    <section class="container rowmy-5">
+      <div class="d-flex align-items-center mb-3" style="gap: 30rem;">
+        <h4 class="mb-0">
+          <i class="fa-solid fa-comments"></i> 방명록 목록
+        </h4>
+
+      </div>
       <div class="row g-4">
 
         <!-- 📝 작성 폼 카드 (오른쪽) -->
         <div class="col-md-4 order-md-2 d-flex">
           <div class="card shadow-lg border-0 equal-height w-100">
             <div class="card-body">
-              <h5 class="card-title"><i class="fa-solid fa-pen"></i> 방명록 작성</h5>
+              <h5 class="card-title">
+                <i class="fa-solid fa-pen"></i>
+                <span class="title-text">방명록 목록</span>
+              </h5>
               <div class="mb-3">
                 <input type="text" id="name_input" class="form-control" placeholder="이름" maxlength="16"
                   style="width:40%">
@@ -317,7 +345,7 @@
               <div class="mb-3">
                 <textarea id="message_input" class="form-control" rows="4" placeholder="메시지를 입력하세요"></textarea>
               </div>
-              <button id="submitbtn" class="btn btn-primary w-100"><i class="fa-solid fa-paper-plane"></i>
+              <button id="submitbtn" class="btn btn-dark w-100"><i class="fa-solid fa-paper-plane"></i>
                 작성하기</button>
             </div>
           </div>
