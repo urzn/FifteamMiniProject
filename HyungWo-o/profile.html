@@ -53,6 +53,10 @@
       $('#goodNum').text(goodNum);
     });
 
+    $(".topBtn").click(async function () {
+      $(window).scroll(0);
+    });
+
   </script>
 
   <style>
@@ -264,7 +268,7 @@
         aria-expanded="false" data-bs-toggle="dropdown" aria-label="Toggle theme (auto)">
         <span id="bd-theme-text">❤️ <span id="goodNum"></span></span>
       </button>
-      <a class="topBtn" href="#main" style="text-decoration: none;">
+      <a class="topBtn" href="#" style="text-decoration: none;">
         <button class="btn btn-bd-primary py-2 d-flex align-items-center" id="bd-theme" type="button"
           aria-expanded="false" data-bs-toggle="dropdown" aria-label="Toggle theme (auto)">
           <span id="bd-theme-text">TOP</span>
