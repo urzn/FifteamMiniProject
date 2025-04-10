@@ -96,9 +96,8 @@
       let pwd = $('#pwd_input').val();
       let message = $('#message_input').val();
 
-
-      if (!name || !message || !pwd) {
-        alert("빈칸을 모두 입력해주세요!");
+      if (!name || !message || !pwd  || pwd.length < 4 ) {
+        alert("빈칸을 모두 입력해주세요. 비밀번호는 4자 이상이어야 합니다.");
         return;
       }
 
@@ -133,6 +132,7 @@
       let timestamp = createdAt ? createdAt.toLocaleString("ko-KR")
         : "작성일 없음";
       let imgUrl = imgLists[row.imgNum];
+      // message를 html로 가져올때 줄바꿈
       let message = row.message.replace(/\n/g, "<br>");
       let temp_html = `<div class="card mb-2 shadow-sm d-flex flex-row align-items-start guestProfile" 
       data-name="${row.name}" data-message="${row.message}" data-pwd="${row.password}" data-id="${doc.id}">
@@ -190,7 +190,7 @@
     });
 
     $(document).on("click", "#modifyBtn", function () {
-      if ($('#pwd_input').val() == pwd) {
+      if ($('#pwd_input').val() === pwd.toString()) {
         // $("#name_input").attr("type", "visible");
         $("#pwd_input").hide();
         $('#deleteBtn').remove();
@@ -204,16 +204,18 @@
 
       } else {
         alert("비밀번호가 틀렸습니다.");
+        $('#pwd_input').val('');
       }
     });
 
     $(document).on("click", "#deleteBtn", async function () {
       if (confirm("삭제하시겠습니까?")) {
-        if ($('#pwd_input').val() == pwd) {
+        if ($('#pwd_input').val() === pwd.toString()) {
           await deleteDoc(doc(db, "guestbook", doc_id));
           window.location.reload();
         } else {
           alert("비밀번호가 틀렸습니다.");
+          $('#pwd_input').val('');
         }
       }
       else return;
@@ -222,6 +224,7 @@
     $(document).on("click", "#cancleBtn", function () {
       // 보류
       window.location.reload();
+      
     });
 
     $(document).on("click", "#postBtn", function () {
@@ -435,7 +438,7 @@
               <div class="mb-3">
                 <textarea id="message_input" class="form-control" rows="4" placeholder="메시지를 입력하세요"></textarea>
               </div>
-              <button id="submitbtn" class="btn btn-dark w-100"><i class="fa-solid fa-paper-plane"></i>
+              <button type="submit" id="submitbtn" class="btn btn-dark w-100"><i class="fa-solid fa-paper-plane"></i>
                 작성하기</button>
             </div>
           </div>
