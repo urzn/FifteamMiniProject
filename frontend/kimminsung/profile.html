@@ -1,129 +1,68 @@
 <!doctype html>
 <html lang="ko">
-
 <head>
   <meta charset="utf-8">
   <title>Carousel Template</title>
-
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-
   <link rel="stylesheet" href="carousel.css">
-
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" defer></script>
-
   <link rel="stylesheet"
     href="https://fonts.googleapis.com/css2?family=42dot+Sans:wght@300..800&family=Gowun+Dodum&family=Noto+Sans+KR:wght@100..900&family=Single+Day&family=Yeon+Sung&display=swap">
-
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+    import { getFirestore, doc, getDoc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
 
-  <style>
-    .carousel-caption {
-      position: absolute;
-      z-index: 10;
-      /* 글자가 가장 위에 오게 */
-      color: white;
-    }
+    const firebaseConfig = {
+      apiKey: "AIzaSyCLT9etK-Oj0KNCEkjzL9N0OnqMdxnqtNg",
+      authDomain: "sparta-651a1.firebaseapp.com",
+      projectId: "sparta-651a1",
+      storageBucket: "sparta-651a1.firebasestorage.app",
+      messagingSenderId: "999622161704",
+      appId: "1:999622161704:web:a933f909864f3cf8888c1d",
+      measurementId: "G-ZY3DSJ46M6"
+    };
 
-    .carousel-control-prev,
-    .carousel-control-next {
-      top: 50%;
-      transform: translateY(-50%);
-      height: 50px;
-      width: 50px;
-      z-index: 5;
-      /* caption보다 낮게 */
-    }
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
 
-    body {
-      font-family: "Gowun Dodum", sans-serif;
-    }
+    $(async function () {
+      const likeDocRef = doc(db, "likes", "likeCount");
 
-    .equal-height {
-      height: 20%;
-    }
-    .container{
-      padding-top: 30px;
-    }
-    .info a {
-      color: #6c5ce7; /* 보라빛 계열 색상 */
-      text-decoration: none;
-      font-weight: bold;
-      border-bottom: 2px solid #a29bfe;
-      transition: 0.2s;
-    }
-
-    .info a:hover {
-      color: #a29bfe;
-      border-bottom-color: #6c5ce7;
-    }
-
-    .gallery > img{
-      height:300px; width: auto;
-    }
-  </style>
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
-  import {
-    getFirestore,
-    doc,
-    getDoc,
-    setDoc,
-    updateDoc
-  } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
-
-  // Firebase 설정
-  const firebaseConfig = {
-    apiKey: "AIzaSyCLT9etK-Oj0KNCEkjzL9N0OnqMdxnqtNg",
-    authDomain: "sparta-651a1.firebaseapp.com",
-    projectId: "sparta-651a1",
-    storageBucket: "sparta-651a1.firebasestorage.app",
-    messagingSenderId: "999622161704",
-    appId: "1:999622161704:web:a933f909864f3cf8888c1d",
-    measurementId: "G-ZY3DSJ46M6"
-  };
-
-  // Firebase 초기화
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
-
-  $(async function () {
-    const likeDocRef = doc(db, "likes", "likeCount");
-
-    async function loadLikes() {
-      const likeSnap = await getDoc(likeDocRef);
-      if (likeSnap.exists()) {
-        const data = likeSnap.data();
-        $("#likesNum").text(data.count);
-      } else {
-        await setDoc(likeDocRef, { count: 0 });
-        $("#likesNum").text("0");
+      async function loadLikes() {
+        const likeSnap = await getDoc(likeDocRef);
+        if (likeSnap.exists()) {
+          const data = likeSnap.data();
+          $("#likesNum").text(data.count);
+        } else {
+          await setDoc(likeDocRef, { count: 0 });
+          $("#likesNum").text("0");
+        }
       }
-    }
 
-    await loadLikes();
+      await loadLikes();
 
-    $("#likeBtn").click(async function () {
-      const likeSnap = await getDoc(likeDocRef);
-      if (likeSnap.exists()) {
-        const currentCount = likeSnap.data().count || 0;
-        const newCount = currentCount + 1;
-        await updateDoc(likeDocRef, { count: newCount });
-        $("#likesNum").text(newCount);
-      }
+      $("#likeBtn").click(async function () {
+        const likeSnap = await getDoc(likeDocRef);
+        if (likeSnap.exists()) {
+          const currentCount = likeSnap.data().count || 0;
+          const newCount = currentCount + 1;
+          await updateDoc(likeDocRef, { count: newCount });
+          $("#likesNum").text(newCount);
+        }
+      });
     });
-  });
-</script>
-
+  </script>
 </head>
 
 <body>
   <header data-bs-theme="dark">
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
       <div class="container-fluid">
-        <a class="navbar-brand" href="../index.html" style="font-family: 'Bungee Inline', sans-serif; font-size:25px;">FIFTEAM</a>
+        <a class="navbar-brand" href="../index.html"
+          style="font-family: 'Bungee Inline', sans-serif; font-size:25px;">FIFTEAM</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
           aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -151,10 +90,10 @@
     </nav>
   </header>
 
-  <main>  
+  <main>
     <div class="container">
-        <div class="profile" style="padding-top:30px; display:flex;align-items: center; gap:40px; margin-bottom:40px;">
-        <img src="./picture/picture.jpg" style="width:auto; height:300px;" alt="내 사진"  />
+      <div class="profile" style="padding-top:30px; display:flex;align-items: center; gap:40px; margin-bottom:40px;">
+        <img src="./picture/picture.jpg" style="width:auto; height:300px;" alt="내 사진" />
         <div class="info">
           <h1>김민성</h1>
           <p><strong>나이:</strong> 27</p>
@@ -165,7 +104,7 @@
             <button id="likeBtn" class="btn btn-outline-danger rounded-pill px-4 py-2 fw-bold">
               <i class="fa-solid fa-heart"></i> 좋아요
             </button>
-            <p id="likesNum"></p>
+            <p id="likesNum">0</p>
           </div>
         </div>
       </div>
@@ -178,10 +117,10 @@
           <img src="./picture/gerbil-3.jpg" alt="자랑3" />
           <img src="./picture/gerbil-4.jpg" alt="자랑4" />
           <img src="./picture/gerbil-5.jpg" alt="자랑4" />
-          
+
         </div>
         <p style="margin-top:20px;">저와 동거하는 몽골리안 저빌 두마리입니다. 노란애는 짜뿌고 까만애는 Paul 이에요. <br>
-        손으로 잡아주면 해바라기씨를 까먹어요. 곧 세살이 됩니다.</p>
+          손으로 잡아주면 해바라기씨를 까먹어요. 곧 세살이 됩니다.</p>
         <hr class="featurette-divider">
         <div class="gallery" style="display:flex; align-items: center; gap:20px;">
           <img src="./picture/cat.jpg" alt="자랑1" />
@@ -189,24 +128,21 @@
           <img src="./picture/cat3.jpg" alt="자랑1" />
           <img src="./picture/cat4.jpg" alt="자랑1" />
           <img src="./picture/cat5.jpg" alt="자랑1" />
-          
+
         </div>
         <p style="margin-top:20px;">집 앞 카페에 사는 고양이 땅콩이입니다. 저랑 친한 동네친구에요. 얘도 제일 친한 사람친구가 저일거같아요.<br>
-         분명히 길냥이인데 7키로는 됩니다. 지나가는 사람이 보면 임신했냐고 합니다. 중성화한 수컷입니다. </p>
+          분명히 길냥이인데 7키로는 됩니다. 지나가는 사람이 보면 임신했냐고 합니다. 중성화한 수컷입니다. </p>
       </div>
       <hr class="featurette-divider">
       <div class="gallery" style="display:flex; align-items: center; gap:20px;">
-        <img src="./picture/youtubemusic.jpg" alt="자랑1" style="height:400px; width:220px;"/>
-        <img src="./picture/running.jpg" alt="자랑2" style="height:400px;" />        
+        <img src="./picture/youtubemusic.jpg" alt="자랑1" style="height:400px; width:220px;" />
+        <img src="./picture/running.jpg" alt="자랑2" style="height:400px;" />
       </div>
       <p style="margin-top:20px;">유튜브 뮤직 상위청취자 뱃지를 여럿 받았어요. 그리고 러닝을 시작한지 한달이 되어서 30분동안 뛸 수 있게 되었습니다.</p>
     </div>
-    
 
     <hr class="featurette-divider">
     <hr class="featurette-divider">
-
-    
 
     <footer class="container">
       <p class="float-end"><a href="#">Back to top</a></p>

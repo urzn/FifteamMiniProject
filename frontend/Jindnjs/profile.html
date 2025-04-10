@@ -12,7 +12,7 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" defer></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script type="module" src="script.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -99,7 +99,196 @@
         </div>
       </div>
     </section>
+
+    <!-- 댓글 섹션 -->
+    <section class="comment-section">
+      <h2>댓글</h2>
+      <div class="comment-wrapper">
+        <div class="comment-list" id="commentList"></div>
+        <div class="comment-form">
+          <input type="text" id="username" placeholder="닉네임" />
+          <textarea id="comment" rows="3" placeholder="댓글을 입력하세요"></textarea>
+          <input type="password" id="password" placeholder="비밀번호 (삭제용)" />
+          <button id="submitComment">작성</button>
+        </div>
+      </div>
+    </section>
+
   </main>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+    import {
+      getFirestore,
+      doc,
+      getDoc,
+      setDoc,
+    } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+
+    // Firebase 설정
+    const firebaseConfig = {
+      apiKey: "AIzaSyAU3GGQzu-ONHAarQb57TK5E-sfMg7sxOU",
+      authDomain: "spartaprac.firebaseapp.com",
+      projectId: "spartaprac",
+      storageBucket: "spartaprac.firebasestorage.app",
+      messagingSenderId: "478652131986",
+      appId: "1:478652131986:web:50c2b33ea95e575eaa544b",
+      measurementId: "G-4L2EGT7S6C",
+    };
+
+    // Firebase 초기화
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    document.addEventListener("DOMContentLoaded", () => {
+      // 타이핑 효과
+      const $txt = document.querySelector(".txt-title");
+      const content = "안녕하세요 :)\n 반갑습니다.";
+      let contentIndex = 0;
+
+      const typing = () => {
+        if (contentIndex < content.length) {
+          if (content[contentIndex] === "\n") {
+            $txt.innerHTML += "<br />";
+          } else {
+            $txt.innerHTML += content[contentIndex];
+          }
+          contentIndex++;
+          setTimeout(typing, 200);
+        } else {
+          setTimeout(() => {
+            $txt.textContent = "";
+            contentIndex = 0;
+            typing(); // 다시 시작
+          }, 2000);
+        }
+      };
+
+      typing(); // 최초 실행
+
+      // 버튼 클릭 처리
+      document.querySelectorAll(".icon-none").forEach(async (btn, index) => {
+        const countSpan = btn.querySelector(".heart-count");
+        const burstContainer = btn.querySelector(".burst-container");
+        const type = index === 0 ? "thumbs" : "hearts";
+
+        const countRef = doc(db, "counts", type);
+        const snapshot = await getDoc(countRef);
+        const val = snapshot.exists() ? snapshot.data().value : 0;
+        countSpan.textContent = val;
+
+        btn.addEventListener("click", async (e) => {
+          let current = parseInt(countSpan.textContent);
+          let updated = current + 1;
+          countSpan.textContent = updated;
+          await setDoc(countRef, { value: updated });
+
+          const rect = btn.getBoundingClientRect();
+          const offsetX = e.clientX - rect.left;
+          const offsetY = e.clientY - rect.top;
+
+          for (let i = 0; i < 10; i++) {
+            const burst = document.createElement("div");
+            burst.className = "burst";
+
+            const angle = Math.random() * 2 * Math.PI;
+            const distance = Math.random() * 60 + 20;
+            const x = Math.cos(angle) * distance;
+            const y = Math.sin(angle) * distance;
+
+            const colors = ["#ff6b81", "#feca57", "#48dbfb", "#1dd1a1", "#a29bfe"];
+            burst.style.setProperty(
+              "--color",
+              colors[Math.floor(Math.random() * colors.length)]
+            );
+            burst.style.left = `${offsetX}px`;
+            burst.style.top = `${offsetY}px`;
+            burst.style.setProperty("--x", `${x}px`);
+            burst.style.setProperty("--y", `${y}px`);
+
+            burstContainer.appendChild(burst);
+            setTimeout(() => burst.remove(), 700);
+          }
+        });
+      });
+    });
+    import {
+
+      collection,
+      addDoc,
+      serverTimestamp,
+      query,
+      orderBy,
+      onSnapshot,
+      deleteDoc,
+
+    } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+    // 댓글 작성
+    document.getElementById("submitComment").addEventListener("click", async () => {
+      const username = document.getElementById("username").value.trim();
+      const comment = document.getElementById("comment").value.trim();
+      const password = document.getElementById("password").value.trim();
+
+      if (!username || !comment || !password) {
+        alert("닉네임, 댓글, 비밀번호를 모두 입력해주세요!");
+        return;
+      }
+
+      await addDoc(collection(db, "comments"), {
+        username,
+        comment,
+        password,
+        createdAt: serverTimestamp(),
+      });
+
+      document.getElementById("username").value = "";
+      document.getElementById("comment").value = "";
+      document.getElementById("password").value = "";
+    });
+
+    // 댓글 표시
+    const commentList = document.getElementById("commentList");
+    const q = query(collection(db, "comments"), orderBy("createdAt", "desc"));
+
+    onSnapshot(q, (snapshot) => {
+      commentList.innerHTML = "";
+      snapshot.forEach((docSnap) => {
+        const data = docSnap.data();
+
+        // createdAt을 Date 객체로 변환
+        let createdAt = "";
+        if (data.createdAt && data.createdAt.toDate) {
+          const date = data.createdAt.toDate();
+          const yyyy = date.getFullYear();
+          const mm = String(date.getMonth() + 1).padStart(2, "0");
+          const dd = String(date.getDate()).padStart(2, "0");
+          const hh = String(date.getHours()).padStart(2, "0");
+          const min = String(date.getMinutes()).padStart(2, "0");
+          createdAt = `${yyyy}.${mm}.${dd} ${hh}:${min}`;
+        }
+
+        const commentCard = document.createElement("div");
+        commentCard.className = "comment-card";
+        commentCard.innerHTML = `
+      <div class="username">${data.username}</div>
+      <div class="message">${data.comment}</div>
+      <div class="created-at">${createdAt}</div>
+      <button class="delete-btn" data-id="${docSnap.id}">삭제</button>
+    `;
+
+        commentCard.querySelector(".delete-btn").addEventListener("click", async () => {
+          const inputPwd = prompt("비밀번호를 입력하세요:");
+          if (inputPwd === data.password) {
+            await deleteDoc(doc(db, "comments", docSnap.id));
+            alert("댓글이 삭제되었습니다.");
+          } else {
+            alert("비밀번호가 일치하지 않습니다.");
+          }
+        });
+
+        commentList.appendChild(commentCard);
+      });
+    });
+  </script>
 </body>
 
 </html>

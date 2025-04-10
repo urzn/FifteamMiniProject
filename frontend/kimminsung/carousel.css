@@ -17,7 +17,49 @@ body {
   color: rgb(var(--bs-tertiary-color-rgb));
 }
 
+.carousel-caption {
+  position: absolute;
+  z-index: 10;
+  /* 글자가 가장 위에 오게 */
+  color: white;
+}
 
+.carousel-control-prev,
+.carousel-control-next {
+  top: 50%;
+  transform: translateY(-50%);
+  height: 50px;
+  width: 50px;
+  z-index: 5;
+  /* caption보다 낮게 */
+}
+
+body {
+  font-family: "Gowun Dodum", sans-serif;
+}
+
+.equal-height {
+  height: 20%;
+}
+.container{
+  padding-top: 30px;
+}
+.info a {
+  color: #6c5ce7; 
+  text-decoration: none;
+  font-weight: bold;
+  border-bottom: 2px solid #a29bfe;
+  transition: 0.2s;
+}
+
+.info a:hover {
+  color: #a29bfe;
+  border-bottom-color: #6c5ce7;
+}
+
+.gallery > img{
+  height:300px; width: auto;
+}
 /* CUSTOMIZE THE CAROUSEL
 -------------------------------------------------- */
 
