@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>오니의 사이트</title>
+    <title>이 시온</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -27,7 +27,7 @@
         #myselfie {
             width: 400px;
             height: 400px;
-            margin-top: 100px;
+            margin-top: 50px;
             border-radius: 50%;
             object-fit: cover;
         }
@@ -39,25 +39,81 @@
         }
 
         h2 {
-    margin-top: 50px;
-    margin-bottom: 50px;
+            margin-top: 60px;
+            margin-bottom: 50px;
         }
 
+
+        .form-container {
+            width: 50%;
+            max-width: 400px;
+            margin-left: 0;
+            margin-top: 20px;
+            background-color: #FFEBB8;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
 
         .form-container input,
         .form-container textarea,
         .form-container button {
-            display: block;
             width: 100%;
+            box-sizing: border-box;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+
+        .form-container button {
+            background-color: #FF8C00;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+
+        #guestbook {
+            margin-top: 40px;
+            margin-bottom: 100px;
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        #guestbook li {
+            margin-bottom: 15px;
+        }
+
+        .card {
+            background-color: #FFF5E1;
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid #FF8C00;
+        }
+
+        .card-body {
+            padding: 10px;
+        }
+
+        .card-title {
+            font-size: 20px;
+            color: #FF8C00;
             margin-bottom: 10px;
         }
 
-figure img {
-    width: 200px;  /* 고정된 너비 */
-    height: 200px; /* 고정된 높이 */
-    object-fit: cover;
-}
+        .card-text {
+            font-size: 16px;
+            color: #4F4F4F;
+        }
 
+
+        figure img {
+            width: 300px;
+            height: 300px;
+            object-fit: cover;
+        }
     </style>
 
     <script type="module">// Firebase SDK 라이브러리 가져오기
@@ -93,6 +149,11 @@ figure img {
                 'name': name,
                 'message': message,
 
+            }
+
+            if (name.trim() === "" || message.trim() === "") {
+                alert("이름과 메시지를 모두 입력해주세요.");
+                return;
             }
 
 
@@ -139,66 +200,73 @@ figure img {
 
     <header data-bs-theme="dark">
         <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="#">FIFTEAM</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
-                    aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarCollapse">
-                    <ul class="navbar-nav me-auto mb-2 mb-md-0">
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Link</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link disabled" aria-disabled="true">Disabled</a>
-                        </li>
-                    </ul>
-                </div>
+          <div class="container-fluid">
+            <a class="navbar-brand" href="../index.html"
+              style="font-family: 'Bungee Inline', sans-serif; font-size:25px;">FIFTEAM</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
+              aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse" style="font-family:'KorailRoundGothicBold';">
+              <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                <li class="nav-item">
+                  <a class="nav-link" href="../index.html#myCarousel">팀 소개</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../index.html#members">팀원 소개</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../index.html#guestbook">방명록</a>
+                </li>
+              </ul>
+              <!--search삭제
+                <form class="d-flex" role="search">
+                  <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                  <button class="btn btn-outline-success" type="submit">Search</button>
+                </form>
+                -->
             </div>
+          </div>
         </nav>
-    </header>
+      </header>
 
 
     <div class="container mt-5 pt-5">
         <div class="d-flex align-items-center">
             <img src="images/이시온.jpg" id="myselfie" alt="내 사진">
             <div id="mybox">
-                <p></p>이름 : 이시온<br></p>
-                <p> e-mail : tldhs47@naver.com<br></p>
-                <p> github : github@sion<br></p>
-                <p>blog : https://blog.naver.com/tomeyouareperfect_<br></p>
+                <p></p>이름 : 이 시온<br></p>
+                <p> e-mail : tldhs47@gmail.com<br></p>
+                <p> github : <a href="https://github.com/oni4444/oni4444.git">주소입니다</a><br></p>
+                <p>blog : <a href="https://blog.naver.com/tomeyouareperfect_">주소입니다</a><br></p>
             </div>
         </div>
 
 
 
         <div>
-            <h2>제가 좋아하는 것들입니다!</h2>
+            <h2>🤞제가 좋아하는 것들&TIM 소개합니다!✌</h2>
         </div>
 
 
         <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;">
             <figure>
                 <img src="images/롤.jpg" alt="이미지" style="width: 200px;">
-                <figcaption>🎮 lol, 배틀그라운드 등<br> 여러가지 게임을<br> 아주아주 사랑합니당 .</figcaption>
+                <figcaption>🎮 lol, 배틀그라운드 등<br> 여러가지 게임을<br> 아주아주 사랑합니당 .😍</figcaption>
             </figure>
             <figure>
                 <img src="images/일본.jpg" alt="이미지" style="width: 200px;">
-                <figcaption>새로운 곳들을 좋아해서 시간 될 때마다 <br>여행을 자주 다닙니다!<br>
-                    국내 해외 가리지 않고 다 좋아해요</figcaption>
+                <figcaption>✈️새로운 곳들을 좋아해서 시간 될 때마다 <br>여행을 자주 다닙니다!<br>
+                    국내 해외 가리지 않고 다 좋아해요ㅎㅎ</figcaption>
             </figure>
             <figure>
                 <img src="images/키티.jpg" alt="이미지" style="width: 200px;">
-                <figcaption>귀여운 것들을 많이 좋아하는 편입니다 ㅎㅎ<br>
-                    </figcaption>
+                <figcaption>🎀귀여운 것들을 좋아합니다<br>최애 캐릭터는 헬로키티에요!
+                </figcaption>
             </figure>
             <figure>
                 <img src="images/서울.jpg" alt="이미지" style="width: 200px;">
-                <figcaption>🐣 다들 똑같겠지만 <br>맛있는 음식을 아주 좋아합니다 !<br>
+                <figcaption>🍰 다들 공감하시겠지만 <br>맛있는 음식을 아주 좋아합니다 !<br>
                     지금 대전에서 지내고 있는데 <br>대전 맛집 있으면 많이 알려주세용 . .❤</figcaption>
             </figure>
         </div>
@@ -212,7 +280,7 @@ figure img {
             <button id="postingbtn">작성하기</button>
         </div>
 
-        <h3>방명록</h3>
+        <h2>방명록</h2>
         <ul id="guestbook"></ul>
 
 
