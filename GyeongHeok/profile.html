@@ -16,6 +16,9 @@
   <link rel="stylesheet"
     href="https://fonts.googleapis.com/css2?family=42dot+Sans:wght@300..800&family=Gowun+Dodum&family=Noto+Sans+KR:wght@100..900&family=Single+Day&family=Yeon+Sung&display=swap">
 
+  <link href="https://fonts.googleapis.com/css2?family=Bungee+Inline&display=swap" rel="stylesheet">
+
+
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
@@ -101,10 +104,9 @@
     }
 
     .image_select p {
-      font-size:14px;
+      font-size: 14px;
       font-family: gowun-daum;
     }
-
   </style>
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
@@ -183,7 +185,8 @@
   <header data-bs-theme="dark">
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
       <div class="container-fluid">
-        <a class="navbar-brand" href="../index.html" style="font-family: 'Bungee Inline', sans-serif; font-size:25px;">FIFTEAM</a>
+        <a class="navbar-brand" href="../index.html"
+          style="font-family: 'Bungee Inline', sans-serif; font-size:25px;">FIFTEAM</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
           aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -239,33 +242,34 @@
             <div class="center-wrapper">
               <div class="intro-text">
                 <h2>🎮 제가 좋아하는 것</h2><br>
-                  <p style="line-height: 1.2;">최근에는 잘 안하지만 어렸을 적부터 게임을 좋아했고 다양하게 했습니다.<br>
-                    그중에서도 특히 제게 기억이 남는 게임들을 골라봤습니다.<br>
-                    여러분들은 어떤가요? 게임의 이미지를 여럿 선택해주세요.</p>
-              <div class="image_select">
-                <div>
-                  <img src="image/image1.jpg" data-num="1" />
-                  <p id="count1"></p>
+                <p style="line-height: 1.2;">최근에는 잘 안하지만 어렸을 적부터 게임을 좋아했고 다양하게 했습니다.<br>
+                  그중에서도 특히 제게 기억이 남는 게임들을 골라봤습니다.<br>
+                  여러분들은 어떤가요? 게임의 이미지를 여럿 선택해주세요.</p>
+                <div class="image_select">
+                  <div>
+                    <img src="image/image1.jpg" data-num="1" />
+                    <p id="count1"></p>
+                  </div>
+                  <div>
+                    <img src="image/image2.jpg" data-num="2" />
+                    <p id="count2"></p>
+                  </div>
+                  <div>
+                    <img src="image/image3.jpg" data-num="3" />
+                    <p id="count3"></p>
+                  </div>
+                  <div>
+                    <img src="image/image4.jpg" data-num="4" />
+                    <p id="count4"></p>
+                  </div>
+                  <div>
+                    <img src="image/image5.jpg" data-num="5" />
+                    <p id="count5"></p>
+                  </div>
                 </div>
-                <div>
-                  <img src="image/image2.jpg" data-num="2" />
-                  <p id="count2"></p>
-                </div>
-                <div>
-                  <img src="image/image3.jpg" data-num="3" />
-                  <p id="count3"></p>
-                </div>
-                <div>
-                  <img src="image/image4.jpg" data-num="4" />
-                  <p id="count4"></p>
-                </div>
-                <div>
-                  <img src="image/image5.jpg" data-num="5" />
-                  <p id="count5"></p>
-                </div>
+                <button class="btn btn-primary" id="submitBtn">선택한 게임 제출</button>
               </div>
-              <button class="btn btn-primary" id="submitBtn">선택한 게임 제출</button>
-            </div></div>
+            </div>
           </div>
 
         </div>
