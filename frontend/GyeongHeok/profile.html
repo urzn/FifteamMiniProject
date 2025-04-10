@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="ko">
+
+<head>
+  <meta charset="utf-8">
+  <title>장경혁 자기소개</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <link rel="stylesheet" href="carousel.css">
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" defer></script>
+
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=42dot+Sans:wght@300..800&family=Gowun+Dodum&family=Noto+Sans+KR:wght@100..900&family=Single+Day&family=Yeon+Sung&display=swap">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&display=swap');
+
+    .carousel-control-prev,
+    .carousel-control-next {
+      top: 50%;
+      transform: translateY(-50%);
+      height: 50px;
+      width: 50px;
+      z-index: 5;
+    }
+
+    main {
+      padding-top: 70px;
+    }
+
+    .intro-section {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 40px 20px;
+      font-family: "Nanum Pen Script", cursive;
+      font-size: 20px;
+    }
+
+    .profile-img {
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #ddd;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .carousel {
+      max-width: 700px;
+    }
+
+    .intro-text {
+      text-align: center;
+      padding: 20px;
+      max-width: 800px;
+    }
+
+    .carousel-control-prev,
+    .carousel-control-next {
+      filter: invert(100%);
+      width: 40px;
+      height: 40px;
+    }
+
+
+    .image_select {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .image_select img {
+      width: 150px;
+      height: 120px;
+      border: 3px solid transparent;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: border 0.2s ease;
+    }
+
+    .selected-image {
+      box-shadow: 0 0 20px blue;
+    }
+
+    .center-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 600px;
+      padding: 20px;
+    }
+
+  </style>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+    import { getFirestore } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+    import { collection, addDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+    import { getDocs } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+    import { query, orderBy } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+
+    // Firebase 구성 정보 설정
+    const firebaseConfig = {
+      apiKey: "AIzaSyBO_zKay6RtbjJuOnoSm5Wl_y7fz1HjBuE",
+      authDomain: "sparta-bf244.firebaseapp.com",
+      projectId: "sparta-bf244",
+      storageBucket: "sparta-bf244.firebasestorage.app",
+      messagingSenderId: "644606837659",
+      appId: "1:644606837659:web:e4ec6ed32f52e9249b173e",
+      measurementId: "G-FR9RY9V6M9"
+    };
+
+    // Firebase 인스턴스 초기화
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    let selected_num = [];
+
+    $('.image_select img').click(function () {
+      if ($(this).hasClass("selected-image")) {
+        $(this).removeClass("selected-image");
+
+        const index = selected_num.indexOf($(this).data("num"));
+        selected_num.splice(index, 1);
+      }
+      else {
+        $(this).addClass("selected-image");
+        selected_num.push($(this).data("num"));
+      }
+
+    })
+
+    $('#submitBtn').click(async function () {
+      if (!selected_num.length) {
+        alert("이미지를 선택해주세요");
+      }
+      else {
+        let doc = { "gameNum": selected_num }
+        await addDoc(collection(db, "games"), doc);
+        alert("선택 완료");
+        window.location.reload();
+      }
+    })
+
+    let count = {};
+    let docs = await getDocs(collection(db, "games"));
+    docs.forEach((doc) => {
+      let data = doc.data();
+      let nums = data.gameNum;
+
+      for (let num of nums) {
+        if (count[num]) {
+          count[num]++;
+        } else {
+          count[num] = 1;
+        }
+      }
+    });
+
+    for (let num in count) {
+      $(`#count${num}`).text(`❤️${count[num]}`);
+    }
+
+  </script>
+
+</head>
+
+<body>
+  <header data-bs-theme="dark">
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="../index.html" style="font-family: 'Bungee Inline', sans-serif; font-size:25px;">FIFTEAM</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
+          aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse" style="font-family:'KorailRoundGothicBold';">
+          <ul class="navbar-nav me-auto mb-2 mb-md-0">
+            <li class="nav-item">
+              <a class="nav-link" href="../index.html#myCarousel">팀 소개</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="../index.html#members">팀원 소개</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="../index.html#guestbook">방명록</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+
+    <div class="d-flex align-items-center gap-4 p-4 intro-section">
+      <img src="image/장경혁사진.jpg" alt="프로필 이미지" class="profile-img" />
+
+      <div id="textCarousel" class="carousel slide w-100">
+        <div class="carousel-inner">
+
+          <div class="carousel-item active">
+            <div class="center-wrapper">
+              <div class="intro-text">
+                <h2>👋 안녕하세요 15조 팀원 장경혁입니다</h2><br>
+                <p>저는 낯을 많이 가리는 편이지만, 어색한 상황을 줄이기 위해 노력하고 있습니다.<br>
+                  많이 친해지면 똘끼있다는 얘기도 종종 듣고는 했습니다.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="carousel-item">
+            <div class="center-wrapper">
+              <div class="intro-text">
+                <h2>💭 제가 생각하는 제 장점은요..</h2><br>
+                <p>주변 분위기에 영향을 잘 받는다는 것입니다.<br>
+                  물론 이는 단점이 될 수도 있겠지만 전 살면서 장점이 된 경우가 더 많았어요!<br>
+
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="carousel-item">
+            <div class="center-wrapper">
+              <div class="intro-text">
+                <h2>🎮 제가 좋아하는 것</h2><br>
+                <p>최근에는 잘 안하지만 어렸을 적부터 게임을 좋아했고 다양하게 했습니다.<br>
+                  그중에서도 특히 제게 기억이 남는 게임들을 골라봤습니다.
+                  여러분들은 어떤가요?</p>
+              <div class="image_select">
+                <div>
+                  <img src="image/image1.jpg" data-num="1" />
+                  <p id="count1"></p>
+                </div>
+                <div>
+                  <img src="image/image2.jpg" data-num="2" />
+                  <p id="count2"></p>
+                </div>
+                <div>
+                  <img src="image/image3.jpg" data-num="3" />
+                  <p id="count3"></p>
+                </div>
+                <div>
+                  <img src="image/image4.jpg" data-num="4" />
+                  <p id="count4"></p>
+                </div>
+                <div>
+                  <img src="image/image5.jpg" data-num="5" />
+                  <p id="count5"></p>
+                </div>
+              </div>
+              <button class="btn btn-primary" id="submitBtn">선택한 게임 제출</button>
+            </div></div>
+          </div>
+
+        </div>
+
+        <button class="carousel-control-prev" type="button" data-bs-target="#textCarousel" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#textCarousel" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        </button>
+      </div>
+    </div>
+
+    <!-- <footer class="container">
+      <p class="float-end"><a href="#">Back to top</a></p>
+      <p>&copy; 2024 Company, Inc. &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
+    </footer> -->
+
+  </main>
+</body>
+
+</html>
