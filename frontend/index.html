@@ -54,12 +54,15 @@
       float: right;
       margin: -50px 5px 0;
     }
+
+    #messages {
+      max-height: 300px;
+    }
   </style>
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
     import { getFirestore } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
-    import { collection, addDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
-    import { getDocs } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+    import { collection, addDoc, getDocs, deleteDoc, doc, updateDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
     import { query, orderBy } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
 
     // Firebase 구성 정보 설정
@@ -87,32 +90,36 @@
 
     let clickStatus = false;
 
-    // 날짜/시간 처리
-    const now = new Date();
-    // let timestamp = now.toLocaleString("ko-KR");
-
     $("#submitbtn").click(async function () {
       let imgNum = Math.floor(Math.random() * 5);
       let name = $('#name_input').val();
+      let pwd = $('#pwd_input').val();
       let message = $('#message_input').val();
 
-      if (clickStatus) {
-        window.location.reload();
-        alert("새로운 내용을 입력해주세요!")
-      }
-      if (!name || !message) {
-        alert("이름과 메시지를 모두 입력해주세요!");
+
+      if (!name || !message || !pwd) {
+        alert("빈칸을 모두 입력해주세요!");
         return;
       }
 
-      let doc = {
+      if (clickStatus) {
+        await updateDoc(doc(db, "guestbook", doc_id), {
+          'message': message
+        });
+        alert("수정이 완료되었습니다.");
+        window.location.reload();
+        return;
+      }
+
+      let doc_data = {
         'name': name,
+        'password': pwd,
         'message': message,
         'createdAt': new Date(),
         'imgNum': imgNum
       };
       // 데이터베이스에 데이터추가
-      await addDoc(collection(db, "guestbook"), doc);
+      await addDoc(collection(db, "guestbook"), doc_data);
       alert("방명록이 작성되었습니다.");
       window.location.reload();
     })
@@ -126,8 +133,9 @@
       let timestamp = createdAt ? createdAt.toLocaleString("ko-KR")
         : "작성일 없음";
       let imgUrl = imgLists[row.imgNum];
+      let message = row.message.replace(/\n/g, "<br>");
       let temp_html = `<div class="card mb-2 shadow-sm d-flex flex-row align-items-start guestProfile" 
-      data-name="${row.name}" data-message="${row.message}">
+      data-name="${row.name}" data-message="${row.message}" data-pwd="${row.password}" data-id="${doc.id}">
     <img src="사진/${imgUrl}" alt="프로필" class="rounded-circle m-3" width="50" height="50">
 <div class="card-body">
   <div class="d-flex justify-content-between align-items-center">
@@ -136,16 +144,22 @@
     </h6>
     <small class="text-muted">${timestamp}</small>
   </div>
-  <p class="card-text mb-0" style="display:none">${row.message}</p>
+  <p class="card-text mb-0">${message}</p>
 </div>
 </div>`;
 
       $('#messages').append(temp_html);
     })
 
+    let pwd = "";
+    let doc_id = "";
+
     $(document).on("click", ".guestProfile", function () {
       let name = $(this).data("name");
       let message = $(this).data("message");
+      pwd = $(this).data("pwd");
+      doc_id = $(this).data("id");
+      // console.log(pwd,doc_id);
 
       // 입력창에 값 넣기
       $('#name_input').val(name);
@@ -154,13 +168,80 @@
       $("#message_input").attr("readonly", true);
       $('.title-text').text(name + "님의 방명록");
       $("#name_input").attr("type", "hidden");
+      $("#pwd_input").show();
       // 모든 카드에서 'selected-card' 제거
       $(".guestProfile").removeClass("selected-card");
       // 클릭된 카드에만 'selected-card' 추가
       $(this).addClass("selected-card");
+      $("#submitbtn").hide();
+      let temp_html = `<button id="modifyBtn" class="btn btn-dark w-20">수정</button>`;
+      let temp_html2 = `<button id="deleteBtn" class="btn btn-dark w-20">삭제</button>`;
+      let temp_html3 = `<button id="postBtn" class="btn btn-dark w-20">새글 작성</button>`;
+      $('#modifyBtn').remove();
+      $('#deleteBtn').remove();
+      $('#cancleBtn').remove();
+      $('#postBtn').remove();
+      // 버튼 생성
+      $('#btnGroup').append(temp_html);
+      $('#btnGroup').append(temp_html2);
+      $('#btnGroup').append(temp_html3);
 
       clickStatus = true;
     });
+
+    $(document).on("click", "#modifyBtn", function () {
+      if ($('#pwd_input').val() == pwd) {
+        // $("#name_input").attr("type", "visible");
+        $("#pwd_input").hide();
+        $('#deleteBtn').remove();
+        $('#cancleBtn').remove();
+        $('#modifyBtn').remove();
+        $('#postBtn').remove();
+        let temp_html4 = `<button id="cancleBtn" class="btn btn-dark w-20">취소</button>`;
+        $('#btnGroup').append(temp_html4);
+        $("#message_input").attr("readonly", false);
+        $("#submitbtn").show();
+
+      } else {
+        alert("비밀번호가 틀렸습니다.");
+      }
+    });
+
+    $(document).on("click", "#deleteBtn", async function () {
+      if (confirm("삭제하시겠습니까?")) {
+        if ($('#pwd_input').val() == pwd) {
+          await deleteDoc(doc(db, "guestbook", doc_id));
+          window.location.reload();
+        } else {
+          alert("비밀번호가 틀렸습니다.");
+        }
+      }
+      else return;
+    });
+
+    $(document).on("click", "#cancleBtn", function () {
+      // 보류
+      window.location.reload();
+    });
+
+    $(document).on("click", "#postBtn", function () {
+      clickStatus = false;
+      $(".guestProfile").removeClass("selected-card");
+      $('#modifyBtn').remove();
+      $('#deleteBtn').remove();
+      $('#cancleBtn').remove();
+      $('#postBtn').remove();
+      $('.title-text').text("방명록 작성");
+      $("#name_input").attr("type", "visible");
+      $("#message_input").attr("readonly", false);
+      $('#name_input').val('');
+      $('#message_input').val('');
+      $('#pwd_input').val('');
+      $('#submitbtn').show();
+
+    });
+
+
   </script>
 
 
@@ -343,11 +424,13 @@
             <div class="card-body">
               <h5 class="card-title">
                 <i class="fa-solid fa-pen"></i>
-                <span class="title-text">방명록 목록</span>
+                <span class="title-text">방명록 작성</span>
               </h5>
-              <div class="mb-3">
+              <div id="btnGroup" class="mb-3 d-flex gap-2">
                 <input type="text" id="name_input" class="form-control" placeholder="이름" maxlength="16"
                   style="width:40%">
+                <input type="password" id="pwd_input" class="form-control" placeholder="비밀번호" maxlength="8"
+                  minlength="4" pattern="[a-zA-Z0-9]+" style="width:40%">
               </div>
               <div class="mb-3">
                 <textarea id="message_input" class="form-control" rows="4" placeholder="메시지를 입력하세요"></textarea>
