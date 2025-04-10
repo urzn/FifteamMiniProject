@@ -1,0 +1,19 @@
+@font-face {
+  font-family: "GmarketBold";
+  src: url("../src/font/GmarketSansTTFBold.ttf") format("truetype");
+}
+@font-face {
+  font-family: "GmarketMedium";
+  src: url("../src/font/GmarketSansTTFMedium.ttf") format("truetype");
+}
+
+* {
+  font-family: "GmarketMedium";
+}
+body {
+  padding-top: 150px;
+  background-color: #eff2f8;
+}
+body::-webkit-scrollbar {
+  display: none;
+}
