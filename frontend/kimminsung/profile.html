@@ -64,7 +64,58 @@
       height:300px; width: auto;
     }
   </style>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+  import {
+    getFirestore,
+    doc,
+    getDoc,
+    setDoc,
+    updateDoc
+  } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
 
+  // Firebase 설정
+  const firebaseConfig = {
+    apiKey: "AIzaSyCLT9etK-Oj0KNCEkjzL9N0OnqMdxnqtNg",
+    authDomain: "sparta-651a1.firebaseapp.com",
+    projectId: "sparta-651a1",
+    storageBucket: "sparta-651a1.firebasestorage.app",
+    messagingSenderId: "999622161704",
+    appId: "1:999622161704:web:a933f909864f3cf8888c1d",
+    measurementId: "G-ZY3DSJ46M6"
+  };
+
+  // Firebase 초기화
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  $(async function () {
+    const likeDocRef = doc(db, "likes", "likeCount");
+
+    async function loadLikes() {
+      const likeSnap = await getDoc(likeDocRef);
+      if (likeSnap.exists()) {
+        const data = likeSnap.data();
+        $("#likesNum").text(data.count);
+      } else {
+        await setDoc(likeDocRef, { count: 0 });
+        $("#likesNum").text("0");
+      }
+    }
+
+    await loadLikes();
+
+    $("#likeBtn").click(async function () {
+      const likeSnap = await getDoc(likeDocRef);
+      if (likeSnap.exists()) {
+        const currentCount = likeSnap.data().count || 0;
+        const newCount = currentCount + 1;
+        await updateDoc(likeDocRef, { count: newCount });
+        $("#likesNum").text(newCount);
+      }
+    });
+  });
+</script>
 
 </head>
 
@@ -110,6 +161,12 @@
           <p><strong>MBTI:</strong> INFP</p>
           <p><strong>블로그:</strong> <a href="https://nnxxyytt.tistory.com/" target="_blank">nnxxyytt.tistory.com</a></p>
           <p>안녕하세요. 목표는 딱깔센 개발자입니다.<br>저의 장점은 부족한 개발능력으로 인해 발달한 구글링 실력인것 같습니다.<br>4개월동안 화이팅해요!</p>
+          <div class="likeBtnDiv" style="display:flex;align-items: center; gap:20px;">
+            <button id="likeBtn" class="btn btn-outline-danger rounded-pill px-4 py-2 fw-bold">
+              <i class="fa-solid fa-heart"></i> 좋아요
+            </button>
+            <p id="likesNum"></p>
+          </div>
         </div>
       </div>
       <hr class="featurette-divider">
